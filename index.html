@@ -7,7 +7,102 @@
     
     <!-- 🎨 ryopc自作ロゴをタブで輝かせるファビコン命令 -->
     <link rel="icon" type="image/png" href="favicon.png">
-    
+    <!-- 1. サイトの青と白を基調にしたモダンなデザイン（CSS） -->
+<style>
+  #ryopc-custom-popup {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 5%;
+    width: 90%;
+    /* サイトに合わせたデジタル感のあるクリーンな白と紺の配色 */
+    background: #ffffff;
+    color: #333333;
+    padding: 16px 20px;
+    border-radius: 16px;
+    /* グローバルサポートを象徴する鮮やかなブルーのアクセント線 */
+    border-left: 6px solid #0056b3; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    z-index: 99999;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  #ryopc-custom-popup .popup-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+    color: #002244; /* 視認性の高いダークネイビー */
+  }
+  #ryopc-custom-popup .popup-desc {
+    font-size: 12px;
+    color: #666666;
+  }
+  #ryopc-custom-popup .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 18px;
+    color: #aaaaaa;
+    line-height: 1;
+  }
+  
+  /* スマホ（画面幅768px以下）でのみ有効化 */
+  @media screen and (max-width: 768px) {
+    #ryopc-custom-popup.active { display: block; }
+  }
+</style>
+
+<!-- 2. ポップアップのHTML構造 -->
+<div id="ryopc-custom-popup">
+  <span class="close-btn" id="popup-close">×</span>
+  <!-- 国際的なサポート理念を言語別に自動で打ち出します -->
+  <div class="popup-title" id="popup-text-main">デジタル機器のサポート窓口</div>
+  <div class="popup-desc" id="popup-text-sub">不審な技術サポートの相談や質問はこちらから</div>
+</div>
+
+<!-- 3. スマホ検出・グローバル多言語判定・チャネルトーク起動（JS） -->
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    // ユーザーの言語設定（国）を検知
+    const userLang = (navigator.language || navigator.userLanguage).toLowerCase();
+    const isMobile = window.innerWidth <= 768;
+
+    // 英語環境（世界中からのアクセス）の場合
+    if (userLang.startsWith('en')) {
+      document.getElementById('popup-text-main').innerText = "Global Digital Support Desk";
+      document.getElementById('popup-text-sub').innerText = "Click here to ask questions or report fraud.";
+    }
+    // 韓国語環境の場合
+    else if (userLang.startsWith('ko')) {
+      document.getElementById('popup-text-main').innerText = "글로벌 디지털 지원 창구";
+      document.getElementById('popup-text-sub').innerText = "디지털 기기 상담 및 문의는 여기로";
+    }
+
+    // スマホ環境であれば、ページを開いて3秒後に表示
+    if (isMobile) {
+      setTimeout(function() {
+        document.getElementById('ryopc-custom-popup').classList.add('active');
+      }, 3000);
+    }
+
+    // ポップアップタップでチャネルトークを立ち上げる
+    document.getElementById('ryopc-custom-popup').addEventListener('click', function(e) {
+      if (e.target.id === 'popup-close') return; // ×ボタン時は除外
+
+      if (typeof ChannelIO === 'function') {
+        ChannelIO('showMessenger');
+      }
+    });
+
+    // ×ボタンで非表示
+    document.getElementById('popup-close').addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('my-custom-popup').classList.remove('active');
+    });
+  });
+</script>
+
     <style>
         :root {
             --primary: #0052cc;      /* テック・ブルー */
