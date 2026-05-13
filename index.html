@@ -5,104 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ryopc Global Digital Support</title>
     
-    <!-- 🎨 ryopc自作ロゴをタブで輝かせるファビコン命令 -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <!-- 1. サイトの青と白を基調にしたモダンなデザイン（CSS） -->
-<style>
-  #ryopc-custom-popup {
-    display: none;
-    position: fixed;
-    bottom: 24px;
-    left: 5%;
-    width: 90%;
-    /* サイトに合わせたデジタル感のあるクリーンな白と紺の配色 */
-    background: #ffffff;
-    color: #333333;
-    padding: 16px 20px;
-    border-radius: 16px;
-    /* グローバルサポートを象徴する鮮やかなブルーのアクセント線 */
-    border-left: 6px solid #0056b3; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    z-index: 99999;
-    cursor: pointer;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  #ryopc-custom-popup .popup-title {
-    font-weight: 700;
-    font-size: 15px;
-    margin-bottom: 4px;
-    color: #002244; /* 視認性の高いダークネイビー */
-  }
-  #ryopc-custom-popup .popup-desc {
-    font-size: 12px;
-    color: #666666;
-  }
-  #ryopc-custom-popup .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 18px;
-    color: #aaaaaa;
-    line-height: 1;
-  }
-  
-  /* スマホ（画面幅768px以下）でのみ有効化 */
-  @media screen and (max-width: 768px) {
-    #ryopc-custom-popup.active { display: block; }
-  }
-</style>
-
-<!-- 2. ポップアップのHTML構造 -->
-<div id="ryopc-custom-popup">
-  <span class="close-btn" id="popup-close">×</span>
-  <!-- 国際的なサポート理念を言語別に自動で打ち出します -->
-  <div class="popup-title" id="popup-text-main">デジタル機器のサポート窓口</div>
-  <div class="popup-desc" id="popup-text-sub">不審な技術サポートの相談や質問はこちらから</div>
-</div>
-
-<!-- 3. スマホ検出・グローバル多言語判定・チャネルトーク起動（JS） -->
-<script>
-  window.addEventListener('DOMContentLoaded', function() {
-    // ユーザーの言語設定（国）を検知
-    const userLang = (navigator.language || navigator.userLanguage).toLowerCase();
-    const isMobile = window.innerWidth <= 768;
-
-    // 英語環境（世界中からのアクセス）の場合
-    if (userLang.startsWith('en')) {
-      document.getElementById('popup-text-main').innerText = "Global Digital Support Desk";
-      document.getElementById('popup-text-sub').innerText = "Click here to ask questions or report fraud.";
-    }
-    // 韓国語環境の場合
-    else if (userLang.startsWith('ko')) {
-      document.getElementById('popup-text-main').innerText = "글로벌 디지털 지원 창구";
-      document.getElementById('popup-text-sub').innerText = "디지털 기기 상담 및 문의는 여기로";
-    }
-
-    // スマホ環境であれば、ページを開いて3秒後に表示
-    if (isMobile) {
-      setTimeout(function() {
-        document.getElementById('ryopc-custom-popup').classList.add('active');
-      }, 3000);
-    }
-
-    // ポップアップタップでチャネルトークを立ち上げる
-    document.getElementById('ryopc-custom-popup').addEventListener('click', function(e) {
-      if (e.target.id === 'popup-close') return; // ×ボタン時は除外
-
-      if (typeof ChannelIO === 'function') {
-        ChannelIO('showMessenger');
-      }
-    });
-
-    // ×ボタンで非表示
-    document.getElementById('popup-close').addEventListener('click', function(e) {
-      e.stopPropagation();
-      document.getElementById('my-custom-popup').classList.remove('active');
-    });
-  });
-</script>
-
+    <!-- 🎨 メイン共通ファビコン -->
+    <link rel="icon" type="image/png" href="./favicon.png">
+    
     <style>
         :root {
             --primary: #0052cc;      /* テック・ブルー */
@@ -112,164 +17,89 @@
             --text: #334155;
         }
         
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            margin: 0; padding: 0; background-color: var(--bg); color: var(--text); line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
         header {
             background: linear-gradient(135deg, var(--dark) 0%, #172a45 100%);
-            color: white;
-            padding: 4rem 1.2rem;
-            text-align: center;
-            border-bottom: 4px solid var(--accent);
+            color: white; padding: 4rem 1.2rem; text-align: center; border-bottom: 4px solid var(--accent);
         }
-
         header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+            margin: 0; font-size: 2.5rem; font-weight: 800; letter-spacing: -1px;
             background: linear-gradient(to right, #ffffff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            word-wrap: break-word;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; word-wrap: break-word;
         }
+        header p { font-size: 1.05rem; max-width: 600px; margin: 1.2rem auto 0 auto; color: #94a3b8; }
 
-        header p {
-            font-size: 1.05rem;
-            max-width: 600px;
-            margin: 1.2rem auto 0 auto;
-            color: #94a3b8;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1.2rem;
-        }
-
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1.2rem; }
         .card {
-            background: white;
-            padding: 1.8rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.8rem;
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
+            background: white; padding: 1.8rem; border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); margin-bottom: 1.8rem;
+            border: 1px solid #e2e8f0; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent;
         }
 
-        h2 {
-            color: var(--dark);
-            font-size: 1.4rem;
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        h2::before {
-            content: "⚡";
-            color: var(--accent);
+        .docs-link-button {
+            display: block; background: linear-gradient(135deg, var(--primary) 0%, #0043a4 100%);
+            color: white !important; text-decoration: none; padding: 1rem 1.5rem; border-radius: 12px;
+            font-weight: 700; font-size: 1.1rem; text-align: center; margin-top: 2rem;
+            box-shadow: 0 6px 15px rgba(0, 82, 204, 0.2); transition: all 0.2s ease;
         }
 
-        footer {
-            background-color: var(--dark);
-            color: #94a3b8;
-            padding: 2.5rem 1.2rem;
-            text-align: center;
-            font-size: 0.9rem;
-        }
+        h2 { color: var(--dark); font-size: 1.4rem; margin-top: 0; display: flex; align-items: center; gap: 0.5rem; }
+        h2::before { content: "⚡"; color: var(--accent); }
+        p { font-size: 1rem; color: #475569; }
 
+        footer { background-color: var(--dark); color: #94a3b8; padding: 2.5rem 1.2rem; text-align: center; font-size: 0.9rem; }
         .status-badge {
-            display: inline-block;
-            background-color: #1e293b;
-            color: var(--accent);
-            padding: 0.4rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid rgba(0, 191, 255, 0.2);
-            margin-top: 1rem;
+            display: inline-block; background-color: #1e293b; color: var(--accent); padding: 0.4rem 1rem;
+            border-radius: 9999px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(0, 191, 255, 0.2); margin-top: 1rem;
         }
 
-        /* 🤖 ガチの自動感知テクノロジー（Interaction Media Queries） */
+        /* 🍪 GDPR対応：画面最下部に固定されるサイバークッキー同意バナー */
+        #cookie-banner {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background-color: #0f172a; color: white;
+            padding: 1.5rem; text-align: left;
+            border-top: 2px solid var(--accent);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            z-index: 99999;
+            display: none; /* JavaScriptで自動感知制御 */
+        }
+        .cookie-content {
+            max-width: 1000px; margin: 0 auto;
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .cookie-text { font-size: 0.95rem; color: #cbd5e1; line-height: 1.5; }
+        .cookie-text a { color: var(--accent); text-decoration: underline; }
+        .cookie-btns { display: flex; gap: 0.5rem; justify-content: flex-end; }
+        .cookie-btn {
+            padding: 0.6rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; border: none; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent;
+        }
+        .cookie-accept { background: var(--accent); color: var(--dark); }
+        .cookie-decline { background: #334155; color: #94a3b8; }
+
+        /* 🤖 自動感知テクノロジー */
         @media (hover: hover) and (pointer: fine) {
-            header {
-                padding: 6rem 1rem;
-            }
-            header h1 {
-                font-size: 3.5rem;
-            }
-            header p {
-                font-size: 1.3rem;
-            }
-            .card {
-                padding: 2.5rem;
-                margin-bottom: 2.5rem;
-            }
-            .card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-                border-color: var(--accent);
-            }
-            h2 {
-                font-size: 1.8rem;
-            }
+            header { padding: 5rem 1rem; } header h1 { font-size: 3rem; } header p { font-size: 1.3rem; }
+            .card { padding: 2.5rem; margin-bottom: 2.5rem; }
+            .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
+            .docs-link-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 82, 204, 0.35); filter: brightness(1.1); }
+            .cookie-content { flex-direction: row; align-items: center; justify-content: space-between; }
+            .cookie-text { max-width: 70%; }
+            .cookie-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+            h2 { font-size: 1.8rem; } p { font-size: 1.1rem; }
         }
 
         @media (hover: none) {
-            .card:active {
-                border-color: var(--accent);
-                background-color: #f8fafc;
-            }
-            header h1 {
-                font-size: calc(1.8rem + 2vw);
-            }
+            header h1 { font-size: calc(1.8rem + 2vw); }
+            .docs-link-button:active { filter: brightness(0.9); transform: scale(0.98); }
+            .cookie-btn:active { transform: scale(0.95); }
         }
-        /* 👑 クレイジーかっこいいDocs誘導ボタン */
-.docs-link-button {
-    display: block;
-    background: linear-gradient(135deg, var(--primary) 0%, #0043a4 100%);
-    color: white !important;
-    text-decoration: none;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-align: center;
-    margin-top: 2rem;
-    box-shadow: 0 6px 15px rgba(0, 82, 204, 0.2);
-    transition: all 0.2s ease;
-}
-
-/* パソコン・マウス操作時のホバーエフェクト（自動感知） */
-@media (hover: hover) and (pointer: fine) {
-    .docs-link-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 82, 204, 0.35);
-        filter: brightness(1.1);
-    }
-}
-
-/* スマホでのタップ時のエフェクト（自動感知） */
-@media (hover: none) {
-    .docs-link-button:active {
-        filter: brightness(0.9);
-        transform: scale(0.98);
-    }
-}
-
     </style>
 </head>
 <body>
@@ -288,22 +118,85 @@
         <div class="card">
             <h2>Our Services (今後の展開)</h2>
             <p>We provide a multi-layered ecosystem including legitimate device guidance and digital literacy advocacy. We plan to sequentially launch diverse digital solutions to meet the evolving needs of the global community.</p>
-        <!-- 👑 Docs専用Webページ（/docs）へ流れるように導くボタン -->
-<a href="https://ryopc.github.io/docs" class="docs-link-button">View Project Documentation (公式ドキュメント閲覧) ➔</a>
-
         </div>
-    </div>
-<script>
-  (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.");}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return;}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x);}}if(document.readyState==="complete"){l();}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l);}})();
 
-  ChannelIO('boot', {
-    "pluginKey": "f06bb3b5-5394-4b24-b902-03d4110cfddd"
-  });
-</script>
+        <a href="docs/" class="docs-link-button">View Project Documentation (公式ドキュメント閲覧) ➔</a>
+    </div>
+
     <footer>
         <p>&copy; 2026 ryopc Global Initiative. All Rights Reserved.</p>
         <div class="status-badge">Status: Under application for Open Source Collective (Covina, CA, USA)</div>
     </footer>
+
+    <!-- 🍪 クッキー同意バナーの構造 -->
+    <div id="cookie-banner">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                We use cookies and integrate automated live support via Channel Talk to guarantee professional digital assistance. By clicking "Accept All", you consent to our data tracking optimization in absolute compliance with our international <a href="docs/privacy/">Privacy Policy</a>.
+            </div>
+            <div class="cookie-btns">
+                <button class="cookie-btn cookie-decline" onclick="declineCookies()">Decline</button>
+                <button class="cookie-btn cookie-accept" onclick="acceptCookies()">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🧠 チャネルトークの動的制御スクリプト -->
+    <script>
+        // ⚠️ チャネルトーク公式の埋め込み関数
+        function loadChannelTalk() {
+            (function() {
+                var w = window;
+                if (w.ChannelIO) { return (w.console.error || w.console.log || function(){})('ChannelIO script included twice.'); }
+                var ch = function() { ch.c(arguments); };
+                ch.q = []; ch.c = function(args) { ch.q.push(args); };
+                w.ChannelIO = ch;
+                function l() {
+                    if (w.ChannelIOInitialized) { return; }
+                    w.ChannelIOInitialized = true;
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript'; s.async = true;
+                    s.src = 'channel.io';
+                    s.charset = 'UTF-8';
+                    var x = document.getElementsByTagName('script')[0];
+                    x.parentNode.insertBefore(s, x);
+                }
+                if (document.readyState === 'complete') { l(); } 
+                else { w.addEventListener('DOMContentLoaded', l); w.addEventListener('load', l); }
+            })();
+
+            // ⚠️ ここにあなたのチャネルトークの「本物のpluginKey」を貼り付けてください！
+            ChannelIO('boot', {
+                "pluginKey": "f06bb3b5-5394-4b24-b902-03d4110cfddd" 
+            });
+        }
+
+        // 🤖 クッキー自動感知ロジック
+        window.onload = function() {
+            var consent = localStorage.getItem('ryopc_cookie_consent');
+            if (consent === 'granted') {
+                // すでに同意済みの場合はチャネルトークを即時起動
+                loadChannelTalk();
+            } else if (consent === 'denied') {
+                // 拒否済みの場合は何もしない（起動させない）
+            } else {
+                // 初めて来たユーザーにはバナーをポーンと表示
+                document.getElementById('cookie-banner').style.display = 'block';
+            }
+        };
+
+        function acceptCookies() {
+            localStorage.setItem('ryopc_cookie_consent', 'granted');
+            document.getElementById('cookie-banner').style.display = 'none';
+            loadChannelTalk(); // その場でチャネルトークを起動！
+        }
+
+        function declineCookies() {
+            localStorage.setItem('ryopc_cookie_consent', 'denied');
+            document.getElementById('cookie-banner').style.display = 'none';
+            // チャネルトークは起動しない
+        }
+    </script>
 
 </body>
 </html>
