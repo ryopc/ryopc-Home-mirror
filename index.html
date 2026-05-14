@@ -58,48 +58,136 @@
             display: inline-block; background-color: #1e293b; color: var(--accent); padding: 0.4rem 1rem;
             border-radius: 9999px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(0, 191, 255, 0.2); margin-top: 1rem;
         }
+<!-- ========================================== -->
+<!-- チャネルトーク連携 クッキーバナーここから -->
+<!-- ========================================== -->
+<style>
+    /* 他の表示と被らないよう、一意のクラス名（ch-cookie-*）にしています */
+    .ch-cookie-banner {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+        background: #1c1c1e;
+        color: #ffffff;
+        padding: 18px 24px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        z-index: 999999; /* 確実に最前面に表示 */
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 14px;
+    }
+    .ch-cookie-banner.ch-hidden {
+        display: none !important;
+    }
+    .ch-cookie-text {
+        flex: 1;
+        min-width: 250px;
+        line-height: 1.5;
+    }
+    .ch-cookie-buttons {
+        display: flex;
+        gap: 12px;
+    }
+    .ch-cookie-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .ch-cookie-btn:hover {
+        opacity: 0.9;
+    }
+    .ch-btn-accept {
+        background: #5c5cff; /* チャネルトークに近い青・紫系カラー */
+        color: #ffffff;
+    }
+    .ch-btn-deny {
+        background: #3a3a3c;
+        color: #eaeaea;
+    }
+    /* スマホ表示用の調整 */
+    @media (max-width: 576px) {
+        .ch-cookie-banner {
+            bottom: 12px; left: 12px; right: 12px; padding: 16px;
+        }
+        .ch-cookie-buttons { width: 100%; justify-content: flex-end; }
+    }
+</style>
 
-        /* 🍪 GDPR対応：画面最下部に固定されるサイバークッキー同意バナー */
-        #cookie-banner {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background-color: #0f172a; color: white;
-            padding: 1.5rem; text-align: left;
-            border-top: 2px solid var(--accent);
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
-            z-index: 99999;
-            display: none; /* JavaScriptで自動感知制御 */
-        }
-        .cookie-content {
-            max-width: 1000px; margin: 0 auto;
-            display: flex; flex-direction: column; gap: 1rem;
-        }
-        .cookie-text { font-size: 0.95rem; color: #cbd5e1; line-height: 1.5; }
-        .cookie-text a { color: var(--accent); text-decoration: underline; }
-        .cookie-btns { display: flex; gap: 0.5rem; justify-content: flex-end; }
-        .cookie-btn {
-            padding: 0.6rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;
-            cursor: pointer; border: none; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent;
-        }
-        .cookie-accept { background: var(--accent); color: var(--dark); }
-        .cookie-decline { background: #334155; color: #94a3b8; }
+<!-- バナーのHTML構造 -->
+<div id="chCookieBanner" class="ch-cookie-banner ch-hidden">
+    <div class="ch-cookie-text">
+        当サイトでは、サポートチャット機能の提供や利便性向上のためにクッキー（Cookie）を使用しています。
+    </div>
+    <div class="ch-cookie-buttons">
+        <button class="ch-cookie-btn ch-btn-deny" onclick="chDenyCookie()">拒否する</button>
+        <button class="ch-cookie-btn ch-btn-accept" onclick="chAcceptCookie()">同意する</button>
+    </div>
+</div>
 
-        /* 🤖 自動感知テクノロジー */
-        @media (hover: hover) and (pointer: fine) {
-            header { padding: 5rem 1rem; } header h1 { font-size: 3rem; } header p { font-size: 1.3rem; }
-            .card { padding: 2.5rem; margin-bottom: 2.5rem; }
-            .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
-            .docs-link-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 82, 204, 0.35); filter: brightness(1.1); }
-            .cookie-content { flex-direction: row; align-items: center; justify-content: space-between; }
-            .cookie-text { max-width: 70%; }
-            .cookie-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-            h2 { font-size: 1.8rem; } p { font-size: 1.1rem; }
-        }
+<script>
+// 1. チャネルトーク公式SDK（インストールスクリプト）
+(function() {
+    var w = window; if (w.ChannelIO) { return; }
+    var ch = function() { ch.c(arguments); }; ch.q = []; ch.c = function(args) { ch.q.push(args); }; w.ChannelIO = ch;
+    function l() {
+        if (w.ChannelIOInitialized) { return; } w.ChannelIOInitialized = true;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
+        s.src = 'channel.io'; s.charset = 'UTF-8';
+        var x = document.getElementsByTagName('script')[0]; if (x && x.parentNode) { x.parentNode.insertBefore(s, x); }
+    }
+    if (document.readyState === 'complete') { l(); } else { w.addEventListener('DOMContentLoaded', l); w.addEventListener('load', l); }
+})();
 
-        @media (hover: none) {
-            header h1 { font-size: calc(1.8rem + 2vw); }
-            .docs-link-button:active { filter: brightness(0.9); transform: scale(0.98); }
-            .cookie-btn:active { transform: scale(0.95); }
-        }
+// 2. あなたのプラグインキーを設定してください
+const CH_PLUGIN_KEY = 'f06bb3b5-5394-4b24-b902-03d4110cfddd'; 
+
+// 3. 制御ロジック
+function chInitTalk() {
+    ChannelIO('boot', {
+        "pluginKey": CH_PLUGIN_KEY
+    });
+}
+
+function chAcceptCookie() {
+    localStorage.setItem("ch_cookie_consent", "accepted");
+    document.getElementById("chCookieBanner").classList.add("ch-hidden");
+    chInitTalk(); // 同意されたのでチャネルトークを起動
+}
+
+function chDenyCookie() {
+    localStorage.setItem("ch_cookie_consent", "denied");
+    document.getElementById("chCookieBanner").classList.add("ch-hidden");
+    // 拒否された場合はbootしない（クッキーは作られない）
+}
+
+// ページ読み込み時の判定処理
+(function() {
+    const consent = localStorage.getItem("ch_cookie_consent");
+    if (consent === "accepted") {
+        chInitTalk();
+    } else if (consent === null) {
+        // 未回答の場合のみ、少し遅らせてバナーを自然に表示
+        setTimeout(function() {
+            var banner = document.getElementById("chCookieBanner");
+            if(banner) banner.classList.remove("ch-hidden");
+        }, 800);
+    }
+})();
+</script>
+<!-- ========================================== -->
+<!-- チャネルトーク連携 クッキーバナーここまで -->
+<!-- ========================================== -->
+
     </style>
 </head>
 <body>
@@ -128,77 +216,8 @@
         <div class="status-badge">Status: Under application for Open Source Collective (Covina, CA, USA)</div>
     </footer>
 
-    <!-- 🍪 クッキー同意バナーの構造 -->
-    <div id="cookie-banner">
-        <div class="cookie-content">
-            <div class="cookie-text">
-                We use cookies and integrate automated live support via Channel Talk to guarantee professional digital assistance. By clicking "Accept All", you consent to our data tracking optimization in absolute compliance with our international <a href="docs/privacy/">Privacy Policy</a>.
-            </div>
-            <div class="cookie-btns">
-                <button class="cookie-btn cookie-decline" onclick="declineCookies()">Decline</button>
-                <button class="cookie-btn cookie-accept" onclick="acceptCookies()">Accept All</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- 🧠 チャネルトークの動的制御スクリプト -->
-    <script>
-        // 1. チャネルトークの起動・リブートを完全制御する関数
-function bootChannelTalk() {
-    (function() {
-        var w = window;
-        if (w.ChannelIO) { 
-            // 💡 既にスクリプトが存在する場合は、二重読み込みを防ぎつつ即座にbootをかける
-            w.ChannelIO('boot', { "pluginKey": "f06bb3b5-5394-4b24-b902-03d4110cfddd" });
-            w.ChannelIO('showMessenger'); // 👈 同意した瞬間にチャット窓を強制的に目の前に出現させるガチ演出
-            return;
-        }
-        var ch = function() { ch.c(arguments); };
-        ch.q = []; ch.c = function(args) { ch.q.push(args); };
-        w.ChannelIO = ch;
-        function l() {
-            if (w.ChannelIOInitialized) { return; }
-            w.ChannelIOInitialized = true;
-            var s = document.createElement('script');
-            s.type = 'text/javascript'; s.async = true;
-            s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js'; // 👈 確実につなぐための公式CDN正規URL
-            s.charset = 'UTF-8';
-            var x = document.getElementsByTagName('script')[0] || document.body;
-            x.parentNode.insertBefore(s, x);
-        }
-        // スクリプトの読み込みが完了した瞬間に boot を実行する
-        s.onload = function() {
-            window.ChannelIO('boot', { "pluginKey": "f06bb3b5-5394-4b24-b902-03d4110cfddd" });
-            window.ChannelIO('showMessenger');
-        };
-        l();
-    })();
-}
 
-// 2. クッキー（ローカルストレージ）の状態を自動感知するロジック
-window.addEventListener('load', function() { // 💡 DOMContentLoadedから「load」に変更してバグを回避
-    var consent = localStorage.getItem('ryopc_cookie_consent');
-    if (consent === 'granted') {
-        bootChannelTalk(); // 同意済みなら即時チャネルトークを起動
-    } else if (!consent) {
-        document.getElementById('cookie-banner').style.display = 'block'; // 未同意ならバナーを表示
-    }
-});
-
-// 3. 同意ボタン（Accept）を押した時の処理
-function acceptCookies() {
-    localStorage.setItem('ryopc_cookie_consent', 'granted');
-    document.getElementById('cookie-banner').style.display = 'none';
-    bootChannelTalk(); // その場でチャネルトークを完全強制起動！
-}
-
-// 4. 拒否ボタン（Decline）を押した時の処理
-function declineCookies() {
-    localStorage.setItem('ryopc_cookie_consent', 'denied');
-    document.getElementById('cookie-banner').style.display = 'none';
-}
-
-    </script>
-
+    
 </body>
 </html>
